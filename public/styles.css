@@ -1,0 +1,179 @@
+@font-face {
+    font-family: "Beleren Bold";
+    src:
+      url("./fonts/Beleren2016-Bold.woff") format("woff"),
+      url("./fonts/Beleren2016-Bold.ttf") format("truetype"),
+      url("./fonts/Beleren2016-Bold.svg") format("svg");
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+  }
+
+::selection {
+    color: white;
+    background: orangered;
+}
+
+body {
+    font-family: 'Beleren Bold', sans-serif; 
+    padding: 10;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    background-size: cover;
+    overflow-y: scroll;
+}
+
+#backgroundContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    filter: blur(15px);
+}
+.container {
+    text-align: center;
+    padding: 8px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Adjust as needed */
+    height: 80%;
+    max-width: 600px; /* Adjust as needed */
+}
+#searchInput {
+    font-family: 'Beleren Bold', sans-serif; 
+    padding: 10px;
+    font-size: 20px;
+    width: 300px;
+}
+#searchButton {
+    font-family: 'Beleren Bold', sans-serif; 
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: orangered;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    position: static;
+    margin-top: 10px;
+}
+#cardImage {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto; 
+    height: auto;
+    padding: 10px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+}
+/* Styles for the card image */
+.image-container {
+    margin-right: 20px; /* Add some space between the image and the info */
+}
+
+/* Styles for the card info table */
+#cardInfoTable {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+    margin-right: 10px;
+}
+#cardInfoTable th, #cardInfoTable td {
+    border: 2px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+.cardInfoTable th {
+    text-shadow: 2px 2px;
+}
+#cardInfoTable th {
+    color:#fffefe
+}
+#cardInfoTable tr {
+    color: #fffefe;
+}
+#cardInfoTable td {
+    background-color: rgb(0, 0, 0);
+    color: #fffefe;
+}
+
+.container h1 {
+    background-size: 30%;
+    background-color: black;
+    color: white;
+    border: 1.5px solid white;
+    padding: 8px;
+    max-width: fit-content;
+    text-align: center;
+    display: inline-block;
+}
+.suggestion {
+    cursor: pointer;
+    padding: 5px;
+}
+.suggestion:hover {
+    background-color: #1052c6;
+    cursor: pointer;
+}
+
+.search-container {
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-container {
+    font-family: 'Beleren Bold', sans-serif; 
+    position: absolute;
+    z-index: 1000;
+}
+
+
+.suggestion-dropdown {
+    box-sizing: border-box;
+    font-size: 18px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+#suggestionDropdown {
+    font-family: 'Beleren Bold', sans-serif; 
+    display: none;
+    width: 100%;
+}
+#suggestionDropdown option:hover {
+    background-color: orangered;
+    color: white;
+}
+
+.shiny-text {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative; /* Ensure the parent element is relatively positioned */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Adjust the blur radius and opacity */
+}
+
+.select2-results__option--highlighted {
+    background-color: orangered !important;
+    color: white !important;
+}
+
+/* Media query for narrow viewports */
+@media screen and (max-width: 768px) {
+    .card-info {
+        flex-direction: column; /* Display items in a column on narrow viewports */
+        align-items: center; /* Center items horizontally */
+    }
+
+    .image-container {
+        margin-right: 0; /* Remove the margin on narrow viewports */
+        margin-bottom: 20px; /* Add some space between the image and the table */
+    }
+}

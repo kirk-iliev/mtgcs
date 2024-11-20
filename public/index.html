@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic: The Gathering Card Search</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="magnify.css">
+    <link href="https://unpkg.com/@saeris/typeface-beleren-bold@latest/index.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
+</head>
+<body>
+    <div id="backgroundContainer"></div>
+    <div class="container">
+        <h1>Magic: The Gathering Card Search</h1>
+        <form id="searchForm">
+            <div id="searchContainer" class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Enter card name">
+                <button type="submit" id="searchButton" class="search-button">Search</button>
+                <div id="dropdownContainer" class="dropdown-container">
+                    <select id="suggestionDropdown" class="suggestion-dropdown"></select>
+                </div>
+            </div>
+        </form>
+        <div id="cardInfo" class="card-info">
+            <div class="image-container">
+                <img src="" alt="" id="cardImage" class="zoom" data-magnify-src="" />
+            </div>
+            <div id="cardInfoContainer" class="card-info-container"></div>
+        </div>
+    </div>
+</body>
+</html>

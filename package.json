@@ -1,0 +1,12 @@
+{
+    "name": "mtgcs",
+    "version": "0.0.1",
+    "description": "A basic Magic: the Gathering card search",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+  }
