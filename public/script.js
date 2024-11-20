@@ -3,7 +3,8 @@ const searchInput = document.getElementById("searchInput"); // Reference to the 
 const suggestionDropdown = document.getElementById("suggestionDropdown"); // Reference to the suggestion dropdown element
 const cardInfoContainer = document.getElementById("cardInfoContainer"); // Reference to the card info container element
 const cardImage = document.getElementById("cardImage"); // Reference to the card image element
-let selectedIndex = -1; // Initialize the selected index variable
+const effectToggle = document.getElementById('effectToggle'); // Toggle dropdown
+let bounds; // To store card boundaries for 3D effect calculations
 
 // EVENT LISTENERS -------------------------------------------------------------------------
 
@@ -203,16 +204,58 @@ function positionDropdown() {
 ComputedStyle(searchContainer).width; // Get computed width of search bar
 }
 
-// Function to apply the Magnify plugin for image zoom
-function applyMagnifyPlugin() {
-    $(".zoom").magnify({
-        magnifiedWidth: 2000, // Adjust the magnifiedWidth option to increase zoom level horizontally
-        magnifiedHeight: 2800,
-        onMagnifedOpen: function() {
-            document.body.classList.add('magnify-active'); // Add magnify-active class to body
-        },
-        onMagnifiedClose: function() {
-            document.body.classList.remove('magnify-active'); // Remove magnify-active class from body
-        }
-    });
+// // Function to apply the Magnify plugin for image zoom
+// function applyMagnifyPlugin() {
+//     $(".zoom").magnify({
+//         magnifiedWidth: 2000, // Adjust the magnifiedWidth option to increase zoom level horizontally
+//         magnifiedHeight: 2800,
+//         onMagnifedOpen: function() {
+//             document.body.classList.add('magnify-active'); // Add magnify-active class to body
+//         },
+//         onMagnifiedClose: function() {
+//             document.body.classList.remove('magnify-active'); // Remove magnify-active class from body
+//         }
+//     });
+// }
+
+
+// Function to enable the 3D hover effect
+function rotateToMouse(e) {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const leftX = mouseX - bounds.left;
+    const topY = mouseY - bounds.top;
+
+    const center = {
+        x: leftX - bounds.width / 2,
+        y: topY - bounds.height / 2,
+    };
+    const distance = Math.sqrt(center.x ** 2 + center.y**2);
+    const rotateX = (center.y / bounds.height) * 15; // Tilt up/down
+    const rotateY = -(center.x / bounds.width) * 15; // Tilt left/right
+
+    cardImage.style.transform = `
+        perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale3d(1.2, 1.2, 1.2)
+    `;
 }
+
+// Enable the 3D effect on mouse enter
+function enable3DEffect() {
+    bounds = cardImage.getBoundingClientRect();
+    document.addEventListener('mousemove', rotateToMouse);
+}
+
+// Disable the 3D effect on mouse leave
+function disable3DEffect() {
+    document.removeEventListener('mousemove', rotateToMouse);
+    cardImage.style.transform = '';
+    cardImage.style.background = '';
+}
+
+// Attach event listeners for hover
+cardImage.addEventListener('mouseenter', enable3DEffect);
+cardImage.addEventListener('mouseleave', disable3DEffect);
+
