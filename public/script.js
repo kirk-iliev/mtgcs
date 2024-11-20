@@ -220,42 +220,63 @@ ComputedStyle(searchContainer).width; // Get computed width of search bar
 
 
 // Function to enable the 3D hover effect
-function rotateToMouse(e) {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-    const leftX = mouseX - bounds.left;
-    const topY = mouseY - bounds.top;
+function rotateToPointer(e) {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX; // Handle mouse or touch
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    // Get position relative to the card
+    const leftX = clientX - bounds.left;
+    const topY = clientY - bounds.top;
 
     const center = {
         x: leftX - bounds.width / 2,
         y: topY - bounds.height / 2,
     };
-    const distance = Math.sqrt(center.x ** 2 + center.y**2);
-    const rotateX = (center.y / bounds.height) * 15; // Tilt up/down
-    const rotateY = -(center.x / bounds.width) * 15; // Tilt left/right
 
+    // Apply 3D transform
     cardImage.style.transform = `
         perspective(1000px)
-        rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg)
+        rotateX(${(center.y / bounds.height) * 25}deg)
+        rotateY(${-(center.x / bounds.width) * 25}deg)
         scale3d(1.2, 1.2, 1.2)
     `;
+
+    // Prevent scrolling while interacting with the card
+    if (e.type === 'touchmove') {
+        e.preventDefault();
+    }
 }
 
-// Enable the 3D effect on mouse enter
-function enable3DEffect() {
-    bounds = cardImage.getBoundingClientRect();
-    document.addEventListener('mousemove', rotateToMouse);
+// Function to reset the card's transform
+function resetCard() {
+    cardImage.style.transform = ''; // Reset transform to default
 }
 
-// Disable the 3D effect on mouse leave
-function disable3DEffect() {
-    document.removeEventListener('mousemove', rotateToMouse);
-    cardImage.style.transform = '';
-    cardImage.style.background = '';
+// Event handlers to enable and disable the effect
+function enableEffect(e) {
+    bounds = cardImage.getBoundingClientRect(); // Get accurate dimensions of the image
+
+    if (e.type === 'mouseenter') {
+        document.addEventListener('mousemove', rotateToPointer);
+    } else if (e.type === 'touchstart') {
+        document.addEventListener('touchmove', rotateToPointer, { passive: true });
+    }
 }
 
-// Attach event listeners for hover
-cardImage.addEventListener('mouseenter', enable3DEffect);
-cardImage.addEventListener('mouseleave', disable3DEffect);
+function disableEffect(e) {
+    if (e.type === 'mouseleave') {
+        document.removeEventListener('mousemove', rotateToPointer);
+    } else if (e.type === 'touchend') {
+        document.removeEventListener('touchmove', rotateToPointer);
+    }
+    resetCard(); // Reset the card when the effect is disabled
+}
 
+cardImage.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+
+
+// Add event listeners for both mouse and touch
+cardImage.addEventListener('mouseenter', enableEffect);
+cardImage.addEventListener('mouseleave', disableEffect);
+cardImage.addEventListener('touchstart', enableEffect, { passive: false });
+cardImage.addEventListener('touchend', disableEffect, { passive: true });
