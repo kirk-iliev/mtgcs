@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Magic: The Gathering Card Search</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="stylesheet" href="magnify.css">
+    <link href="https://unpkg.com/@saeris/typeface-beleren-bold@latest/index.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
+</head>
+<body>
+    <div id="backgroundContainer"></div>
+    <div id="header" style="text-align:right; margin: 10px;">
+        <a href="#" id="login-link">Login</a> // 
+        <a href="#" id="signup-link">Sign Up</a> 
+        <a href="#" id="favorites-link" style="display:none;">Favorites</a> // 
+        <a href="#" id="logout-link" style="display:none;">Sign Out</a>
+      </div>      
+    <div class="container">
+        <h1>
+        <span class="title-1">Magic: The Gathering</span>
+        <span class="title-2"> Card Search</span>
+        </h1>
+        <form id="searchForm">
+            <div id="searchContainer" class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Enter card name">
+                
+                <div id="dropdownContainer" class="dropdown-container">
+                    <select id="suggestionDropdown" class="suggestion-dropdown"></select>
+                </div>
+            </div>
+        </form>
+        <div id="cardInfo" class="card-info">
+            <div class="image-container">
+                <img src="" alt="" id="cardImage"/>
+            </div>
+            <div id="cardInfoContainer" class="card-info-container"></div>
+            <button id="view-art-btn">View Art</button>
+        </div>
+        
+    </div>
+    <div id="artModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <!-- Updated image structure for magnify -->
+            <img src="" alt="Card Art" id="modalArtImage" class="zoom modal-art-image" data-magnify-src="">
+        </div>
+    </div>
+    <div id="disclaimerContainer">
+        <span class="disclaimer-icon">?</span>
+        <span class="disclaimer-text"></span>
+        <div class="disclaimer-popup">
+            This is a fan project and is not affiliated with, endorsed, or sponsored by Magic: The Gathering or Wizards of the Coast. All content and trademarks are owned by their respective owners, as allowed by their content policy.
+        </div>
+    </div>
+</body>
+</html>
