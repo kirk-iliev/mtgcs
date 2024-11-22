@@ -1,29 +1,76 @@
-const searchForm = document.getElementById("searchForm"); // Reference to the search form element
-const searchInput = document.getElementById("searchInput"); // Reference to the search input element
-const suggestionDropdown = document.getElementById("suggestionDropdown"); // Reference to the suggestion dropdown element
-const cardInfoContainer = document.getElementById("cardInfoContainer"); // Reference to the card info container element
-const cardImage = document.getElementById("cardImage"); // Reference to the card image element
-const effectToggle = document.getElementById('effectToggle'); // Toggle dropdown
+// CONSTANTS AND VARIABLES ----------------------------------------------------------------
+const searchForm = document.getElementById("searchForm");
+const searchInputElement = document.getElementById("searchInput");
+const cardInfoContainer = document.getElementById("cardInfoContainer");
+const cardImage = document.getElementById("cardImage");
+const setGridContainer = document.getElementById('setGridContainer');
+const setGridView = document.getElementById('setGridView');
+const browseBySetLink = document.getElementById('browseBySetLink');
+const browseByCardLink = document.getElementById('browseByCardLink');
 let bounds; // To store card boundaries for 3D effect calculations
+let isSetSearch = false; // Tracks the current mode
 
 // EVENT LISTENERS -------------------------------------------------------------------------
 
-// jQuery document ready function to initialize Select2 plugin
-$(document).ready(function() {
-    
-    // Initialize Select2 plugin for search input
+$(document).ready(function () {
+    // Initialize Select2 for card search (default)
+    initializeCardSearch();
+
+    // Event listener for "Browse by Set" link
+    $('#browseBySetLink').on('click', function (e) {
+        e.preventDefault();
+        isSetSearch = true;
+        $('#searchInput').val(null).trigger('change'); // Clear current selection
+        $('#searchInput').select2('destroy'); // Destroy the current instance
+        initializeSetSearch(); // Reinitialize Select2 for sets
+        $('#browseBySetLink').hide(); // Hide "Browse by Set" link
+        $('#browseByCardLink').show(); // Show "Browse by Card" link
+        $('#cardInfo').hide(); // Hide card info
+        $('#setGridView').hide(); // Hide grid view if previously visible
+    });
+
+    // Event listener for "Browse by Card" link
+    $('#browseByCardLink').on('click', function (e) {
+        e.preventDefault();
+        isSetSearch = false;
+        $('#searchInput').val(null).trigger('change'); // Clear current selection
+        $('#searchInput').select2('destroy'); // Destroy the current instance
+        initializeCardSearch(); // Reinitialize Select2 for cards
+        $('#browseBySetLink').show(); // Show "Browse by Set" link
+        $('#browseByCardLink').hide(); // Hide "Browse by Card" link
+        $('#setGridView').hide(); // Hide the grid view
+        $('#cardInfo').hide(); // Hide card info
+        $('#setTitleHeader').text(''); // Clear set title
+    });
+
+    // Event listener for Select2 dropdown open
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus(); // Focus on the search input when dropdown opens
+    });
+
+    // Add event listener to handle form submission
+    $('#searchForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+        const cardName = $('#searchInput').val().trim(); // Get user input
+        if (cardName && !isSetSearch) {
+            searchCard(cardName); // Trigger the search
+        }
+    });
+});
+
+// FUNCTIONS ----------------------------------------------------------------------------------
+
+function initializeCardSearch() {
     $('#searchInput').select2({
         placeholder: "Enter card name",
         minimumInputLength: 1,
         ajax: {
-            // URL for fetching autocomplete suggestions
-            url: function(params) {
+            url: function (params) {
                 return "https://api.scryfall.com/cards/autocomplete?q=" + encodeURIComponent(params.term);
             },
             dataType: 'json',
             delay: 15,
-            // Process results from autocomplete API
-            processResults: function(data) {
+            processResults: function (data) {
                 return {
                     results: data.data.map(suggestion => ({
                         id: suggestion,
@@ -35,93 +82,149 @@ $(document).ready(function() {
         }
     });
 
-    // Event handler for when a suggestion is selected
-    $('#searchInput').on('select2:select', function(e) {
+    // Remove previous event handlers to prevent multiple bindings
+    $('#searchInput').off('select2:select');
+
+    // Event handler for when a card is selected
+    $('#searchInput').on('select2:select', function (e) {
         var cardName = e.params.data.text;
         searchCard(cardName);
     });
-});
-
-// Event listener for Select2 dropdown open
-$(document).on('select2:open', () => {
-    document.querySelector('.select2-search__field').focus(); // Focus on the search input when dropdown opens
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const searchForm = document.getElementById('searchForm'); // Reference to the search form
-    const searchInput = document.getElementById('searchInput'); // Reference to the search input
-
-    // Add event listener to handle form submission
-    searchForm.addEventListener('submit', function (e) {
-        //e.preventDefault(); // Prevent form submission
-        //e.stopPropagation();
-        const cardName = $('#searchInput').val().trim(); // Get user input
-        if (cardName) {
-            searchCard(cardName); // Trigger the search
-        }
-    });
-
-    searchButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        const cardName = $('#searchInput').val().trim(); // Use select2's method
-        console.log('Input value:', cardName); // Debug the input value
-        if (cardName) {
-            searchCard(cardName);
-        } else {
-            console.log('No input value provided.');
-        }
-    });
-});
-
-// FUNCTIONS ----------------------------------------------------------------------------------
-
-// Function to update the selected option in the suggestion dropdown
-function updateSelectedOption() {
-    for (let i = 0; i < suggestionDropdown.options.length; i++) {
-        suggestionDropdown.options[i].selected = (i === selectedIndex);
-    }
 }
 
-// Function to fetch autocomplete suggestions
-function getSuggestions(inputValue) {
-    let apiUrl = "https://api.scryfall.com/cards/autocomplete?q=" + encodeURIComponent(inputValue);
-    
+function initializeSetSearch() {
+    $('#searchInput').select2({
+        placeholder: "Enter set name",
+        minimumInputLength: 1,
+        ajax: {
+            url: function () {
+                return "https://api.scryfall.com/sets";
+            },
+            dataType: 'json',
+            delay: 15,
+            data: function () {
+                return {}; // No additional parameters needed
+            },
+            processResults: function (data, params) {
+                const searchTerm = params.term ? params.term.toLowerCase() : '';
+                const filteredSets = data.data.filter(set => set.name.toLowerCase().includes(searchTerm));
+                return {
+                    results: filteredSets.map(set => ({
+                        id: set.code, // Use set code for fetching cards later
+                        text: set.name
+                    }))
+                };
+            },
+            cache: true
+        }
+    });
+
+    // Remove previous event handlers to prevent multiple bindings
+    $('#searchInput').off('select2:select');
+
+    // Event handler for when a set is selected
+    $('#searchInput').on('select2:select', function (e) {
+        var setCode = e.params.data.id;
+        var setName = e.params.data.text; // Get the set name
+        fetchSetCards(setCode, setName);
+    });
+}
+
+function fetchSetCards(setCode, setName) {
+    const apiUrl = `https://api.scryfall.com/cards/search?q=set:${setCode}&order=set`;
+
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        populateDropdown(data.data); // Populate suggestion dropdown with fetched data
-    })
-    .catch(error => {
-        console.error('Error fetching suggestions:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.data) {
+                displaySetTitle(setName); // Display the set title
+                displayCardGrid(data.data); // Pass cards to the grid renderer
+            } else {
+                console.error("No cards found in this set.");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching cards from set:', error);
+        });
 }
 
-// Function to clear suggestions from the dropdown
-function clearSuggestions() {
-    suggestionDropdown.innerHTML = "";
-    suggestionDropdown.style.display = "none";
+function displaySetTitle(setName) {
+    const setTitleHeader = document.getElementById('setTitleHeader');
+    setTitleHeader.textContent = setName;
+}
+
+function displayCardGrid(cards) {
+    setGridContainer.innerHTML = ''; // Clear previous grid content
+
+    cards.forEach(card => {
+        const cardDiv = document.createElement('div');
+        cardDiv.classList.add('card-grid-item');
+
+        // Get the image URL
+        let imageUrl = '';
+        if (card.image_uris) {
+            imageUrl = card.image_uris.normal;
+        } else if (card.card_faces && card.card_faces[0].image_uris) {
+            imageUrl = card.card_faces[0].image_uris.normal;
+        } else {
+            imageUrl = ''; // Placeholder image or leave blank
+        }
+
+        cardDiv.innerHTML = `
+            <img src="${imageUrl}" alt="${card.name}">
+            <p>${card.name}</p>
+        `;
+        setGridContainer.appendChild(cardDiv);
+
+        // Add click functionality for card details
+        cardDiv.addEventListener('click', () => {
+            displayCardInfo(card, true); // Pass 'true' to indicate it's from the set grid
+            displayCardImage(imageUrl); // Display card image
+
+            // Set the background image to the card's art
+            if (card.image_uris && card.image_uris.art_crop) {
+                setBodyBackground(card.image_uris.art_crop);
+            } else if (card.card_faces && card.card_faces[0].image_uris && card.card_faces[0].image_uris.art_crop) {
+                setBodyBackground(card.card_faces[0].image_uris.art_crop);
+            } else {
+                // Optionally set a default background or leave as is
+                console.warn('Art crop not available for this card.');
+            }
+
+            $('#cardInfo').show(); // Show card info
+            // Do not hide the set grid view
+            // Scroll to the card info section
+            $('html, body').animate({
+                scrollTop: $("#cardInfo").offset().top - 200
+            }, 500);
+        });
+    });
+
+    setGridView.style.display = 'block'; // Show the grid view
+    $('#cardInfo').hide(); // Hide card info when displaying grid
 }
 
 // Function to search for a card by name
 function searchCard(cardName) {
     let apiUrl = "https://api.scryfall.com/cards/named?fuzzy=" + encodeURIComponent(cardName);
-    
+
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        if (data.image_uris && data.image_uris.art_crop) {
-            setBodyBackground(data.image_uris.art_crop); // Set background image of body
-            displayCardInfo(data); // Display card information
-            displayCardImage(data.image_uris.png); // Display card image
-            document.getElementById("view-art-btn").style.display = "block";
-        } else {
-            displayErrorMessage("Art crop image not found");
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        displayErrorMessage("Error fetching card data");
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.image_uris && data.image_uris.art_crop) {
+                setBodyBackground(data.image_uris.art_crop); // Set background image of body
+                displayCardInfo(data); // Display card information
+                displayCardImage(data.image_uris.png); // Display card image
+                $('#cardInfo').show(); // Show the card info
+                document.getElementById("view-art-btn").style.display = "block";
+            } else {
+                displayErrorMessage("Art crop image not found");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            displayErrorMessage("Error fetching card data");
+        });
 }
 
 // Function to set background image of the body
@@ -144,21 +247,21 @@ function capitalizeFirstLetter(string) {
 }
 
 // Function to display card information
-function displayCardInfo(data) {
+function displayCardInfo(data, fromSetGrid = false) {
     cardInfoContainer.innerHTML = ""; // Clear previous content
     const table = document.createElement("table");
     table.id = "cardInfoTable";
     const tbody = document.createElement("tbody");
-    
+
     // Add rows and data to the table
     const rows = [
-        { label: "Card Name", value: data.name || "-"},
+        { label: "Card Name", value: data.name || "-" },
         { label: "Set", value: data.set_name || "-" },
         { label: "Rarity", value: capitalizeFirstLetter(data.rarity) || "-" },
         { label: "Number in Set", value: "#" + data.collector_number || "-" },
         { label: "Artist", value: data.artist || "-" },
         { label: "Release Date", value: data.released_at || "-" },
-        { label: "Keywords", value: data.keywords || "-"},
+        { label: "Keywords", value: data.keywords.join(', ') || "-" },
         { label: "Current Prices", value: getCurrentPrices(data) }
     ];
 
@@ -195,7 +298,7 @@ function getRarityColor(rarity) {
         case "mythic":
             return "orangered";
         default:
-            return "white"; 
+            return "white";
     }
 }
 
@@ -219,31 +322,6 @@ function getCurrentPrices(data) {
 function displayErrorMessage(message) {
     cardImage.innerHTML = `<p>${message}</p>`;
 }
-
-// Function to position the suggestion dropdown
-function positionDropdown() {
-    const searchContainer = document.getElementById("searchContainer");
-    suggestionDropdown.style.left = searchContainer.offsetLeft + "px";
-    suggestionDropdown.style.top = (searchContainer.offsetTop + searchContainer.offsetHeight) + "px";
-    suggestionDropdown.style.width = get
-
-ComputedStyle(searchContainer).width; // Get computed width of search bar
-}
-
-// // Function to apply the Magnify plugin for image zoom
-// function applyMagnifyPlugin() {
-//     $(".zoom").magnify({
-//         magnifiedWidth: 2000, // Adjust the magnifiedWidth option to increase zoom level horizontally
-//         magnifiedHeight: 2800,
-//         onMagnifedOpen: function() {
-//             document.body.classList.add('magnify-active'); // Add magnify-active class to body
-//         },
-//         onMagnifiedClose: function() {
-//             document.body.classList.remove('magnify-active'); // Remove magnify-active class from body
-//         }
-//     });
-// }
-
 
 // Function to enable the 3D hover effect
 function rotateToPointer(e) {
@@ -285,7 +363,7 @@ function enableEffect(e) {
     if (e.type === 'mouseenter') {
         document.addEventListener('mousemove', rotateToPointer);
     } else if (e.type === 'touchstart') {
-        document.addEventListener('touchmove', rotateToPointer, { passive: true });
+        document.addEventListener('touchmove', rotateToPointer, { passive: false });
     }
 }
 
@@ -300,13 +378,11 @@ function disableEffect(e) {
 
 cardImage.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
 
-
 // Add event listeners for both mouse and touch
 cardImage.addEventListener('mouseenter', enableEffect);
 cardImage.addEventListener('mouseleave', disableEffect);
 cardImage.addEventListener('touchstart', enableEffect, { passive: false });
-cardImage.addEventListener('touchend', disableEffect, { passive: true });
-
+cardImage.addEventListener('touchend', disableEffect, { passive: false });
 
 document.addEventListener('DOMContentLoaded', () => {
     const viewArtButton = document.getElementById('view-art-btn'); // Button to trigger modal
@@ -396,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const disclaimerContainer = document.getElementById('disclaimerContainer');
     const disclaimerPopup = document.querySelector('.disclaimer-popup');
@@ -413,10 +488,3 @@ document.addEventListener('DOMContentLoaded', () => {
         disclaimerPopup.style.display = 'none';
     });
 });
-
-
-
-
-
-
-

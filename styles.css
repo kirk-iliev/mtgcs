@@ -53,7 +53,6 @@ html, body {
     transform: translate(-50%, -50%);
     width: 90%; /* Adjust as needed */
     height: 80%;
-    max-width: 600px; /* Adjust as needed */
 }
 #searchInput {
     font-family: 'Beleren Bold', sans-serif; 
@@ -76,34 +75,45 @@ html, body {
 
 .card-info {
     display: flex;
-    flex-direction: row;
-    align-items: center; 
-    border-radius: 10px;
+    flex-direction: row; /* Keep items side by side */
+    align-items: flex-start; /* Align items at the top */
+    gap: 16px; /* Add spacing between the card and the table */
+    margin-top: 20px;
+    justify-content: center; /* Center the content horizontally */
+    width: 100%; /* Ensure the container spans full width */
+    max-width: 1200px; /* Optional: Limit the maximum width */
+    margin-left: auto; /* Center horizontally within the parent */
+    margin-right: auto; /* Center horizontally within the parent */
 }
 
  /* Styles for the card image */
-.image-container {
+/* .image-container {
     position: relative;
     width: 100%; 
     height: auto;
     overflow: visible; 
     box-shadow: none;
     padding: 10px;
-}
+} */
 
 
 /* 3D Hover Effect Styles */
+/* Card image styles */
 #cardImage {
     transition: transform 300ms ease-out, box-shadow 300ms ease-out;
     transform: rotate3d(0);
     display: block;
-    width: 100%; 
-    height: auto;
+    max-width: 300px; /* Prevent image from growing too large */
+    min-width: 200px; /* Prevent image from shrinking too much */
+    width: 100%; /* Allow flexibility */
+    height: auto; /* Maintain aspect ratio */
     z-index: 10; 
     position: relative;
     border-radius: 20px;
     overflow: hidden;
 }
+
+
 
 #cardImage:hover {
     transition-duration: 150ms;
@@ -118,6 +128,8 @@ html, body {
     border-radius: 5px;
     width: 100%;
     margin-right: 10px;
+    flex: 1; /* Allow table to take up remaining space */
+    margin: 0; /* Remove unnecessary margins */
     
 }
 #cardInfoTable th, #cardInfoTable td {
@@ -209,21 +221,30 @@ html, body {
 /* Media query for narrow viewports */
 @media screen and (max-width: 768px) {
     .card-info {
-        flex-direction: column; /* Display items in a column on narrow viewports */
+        flex-direction: column; /* Stack items vertically */
         align-items: center; /* Center items horizontally */
+        gap: 16px; /* Spacing between the card and the table */
+        margin-top: 20px; /* Add some spacing at the top */
+        justify-content: flex-start; /* Align content at the top */
+        width: 100%; /* Ensure it spans the full width */
+        max-width: 100%; /* Allow full width on mobile */
+        margin-left: auto; /* Center container horizontally */
+        margin-right: auto; /* Center container horizontally */
     }
 
-    .image-container {
-        position: relative;
-        width: 70%; /* Maintain responsive scaling */
-        height: auto;
-        overflow: visible; /* Allow the image to overflow beyond the container */
-        box-shadow: none; /* Ensure no shadow on the container itself */
+    #cardImage {
+        max-width: 300px; /* Prevent the image from becoming too large */
+        width: 90%; /* Allow the image to scale responsively */
+        height: auto; /* Maintain aspect ratio */
+        margin-bottom: 16px; /* Add spacing below the image */
     }
-    body {
-        margin-bottom: 30px;
+
+    #cardInfoTable {
+        width: 90%; /* Center the table with responsive width */
+        margin: 0 auto; /* Center it horizontally */
     }
 }
+
 
 #view-art-btn {
     display: none;
@@ -360,5 +381,70 @@ html, body {
 
 
 #login-link {
-    color: orangered
+    color: orangered;
+}
+
+#browseBySetLink {
+    color: white;
+    text-shadow: #222;
+}
+
+#browseByCardLink {
+    color: orangered;
+    text-shadow: #222;
+
+}
+
+/* Grid view styling */
+.grid-view {
+    margin-top: 20px;
+}
+
+/* .grid-container {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    width: 100%;
+} */
+
+#setGridView #setGridContainer {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    width: 100%;
+}
+
+
+.card-grid-item {
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.card-grid-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    display: block;
+    object-fit: cover;
+}
+
+.card-grid-item:hover img {
+    transform: scale(1.25);
+}
+
+.card-grid-item p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #fff;
+}
+
+#setTitleHeader {
+    text-align: center;
+    font-size: 28px;
+    margin: 20px 0;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
 }

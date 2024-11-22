@@ -23,6 +23,8 @@
         <span class="title-2"> Card Search</span>
         </h1>
         <form id="searchForm">
+            
+            
             <div id="searchContainer" class="search-container">
                 <input type="text" id="searchInput" class="search-input" placeholder="Enter card name">
                 
@@ -30,7 +32,12 @@
                     <select id="suggestionDropdown" class="suggestion-dropdown"></select>
                 </div>
             </div>
+
         </form>
+        <div class="view-toggle">
+            <a id="browseBySetLink" href="#">Browse by Set</a>
+            <a id="browseByCardLink" href="#" style="display: none;">Browse by Card</a>
+        </div>
         <div id="cardInfo" class="card-info">
             <div class="image-container">
                 <img src="" alt="" id="cardImage"/>
@@ -38,6 +45,11 @@
             <div id="cardInfoContainer" class="card-info-container"></div>
             <button id="view-art-btn">View Art</button>
         </div>
+        <div id="setGridView" class="grid-view" style="display: none;">
+            <div id="setTitleHeader"></div> <!-- New set title header -->
+            <div id="setGridContainer" class="grid-container"></div>
+        </div>
+        
         
     </div>
     <div id="artModal" class="modal" style="display: none;">
