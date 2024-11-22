@@ -91,22 +91,18 @@ html, body {
 }
 
  /* Styles for the card image */
-/* .image-container {
-    position: relative;
-    width: 100%; 
-    height: auto;
-    overflow: visible; 
-    box-shadow: none;
-    padding: 10px;
-} */
-
+ .image-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically (if needed) */
+}
 
 /* 3D Hover Effect Styles */
 /* Card image styles */
 #cardImage {
     transition: transform 300ms ease-out, box-shadow 300ms ease-out;
     transform: rotate3d(0);
-    display: block;
+    display: flex;
     max-width: 300px; /* Prevent image from growing too large */
     min-width: 200px; /* Prevent image from shrinking too much */
     width: 100%; /* Allow flexibility */

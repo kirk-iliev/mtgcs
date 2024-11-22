@@ -343,9 +343,9 @@ function rotateToPointer(e) {
     // Apply 3D transform
     cardImage.style.transform = `
         perspective(1000px)
-        rotateX(${-(center.y / bounds.height) * 40}deg)
-        rotateY(${(center.x / bounds.width) * 40}deg)
-        scale3d(1.5, 1.5, 1.5)
+        rotateX(${-(center.y / bounds.height) * 50}deg)
+        rotateY(${(center.x / bounds.width) * 50}deg)
+        scale3d(1.35, 1.35, 1.35)
     `;
 
     // Prevent scrolling while interacting with the card
