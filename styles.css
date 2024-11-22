@@ -127,30 +127,49 @@ html, body {
 
 /* Styles for the card info table */
 #cardInfoTable {
-    margin-top: 20px;
-    border-collapse: collapse;
-    border-radius: 5px;
+    border-collapse: separate; /* Allows rounded corners to work */
+    border-spacing: 0; /* Prevent gaps between cells */
+    border-radius: 10px; /* Apply rounded corners to the entire table */
+    overflow: hidden; /* Ensures content stays within rounded corners */
     width: 100%;
-    margin-right: 10px;
-    flex: 1; /* Allow table to take up remaining space */
-    margin: 0; /* Remove unnecessary margins */
-    
+    margin: 20px auto; /* Center the table */
+    border: 1px solid #dddddd; /* Add a border around the table */
 }
+
 #cardInfoTable th, #cardInfoTable td {
-    border: 2px solid #dddddd;
     padding: 8px;
     text-align: left;
-    border-top-right-radius: 10px;
+    background-color:transparent;
+    color: #fffefe;
+    border: 1px solid #dddddd; /* Line between all cells */
 }
 
-#cardInfoTable tr {
-    color: #fffefe;
+/* Keep the rest of the table black */
+#cardInfoTable td:not(:first-child), #cardInfoTable th:not(:first-child) {
+    background-color: black; /* Black background for other columns */
+    color: #fffefe; /* Text remains visible */
+    /* border: 1px solid #dddddd; Borders between cells */
 }
-#cardInfoTable td {
 
-    background-color: rgb(0, 0, 0);
-    color: #fffefe;
+#cardInfoTable th {
+    font-weight: bold;
 }
+
+
+/* Add explicit control for the first and last rows to handle rounding */
+#cardInfoTable tr:first-child th:first-child {
+    border-top-left-radius: 10px; /* Top-left corner */
+}
+#cardInfoTable tr:first-child th:last-child {
+    border-top-right-radius: 10px; /* Top-right corner */
+}
+#cardInfoTable tr:last-child td:first-child {
+    border-bottom-left-radius: 10px; /* Bottom-left corner */
+}
+#cardInfoTable tr:last-child td:last-child {
+    border-bottom-right-radius: 10px; /* Bottom-right corner */
+}
+
 
 
 .container h1 {
@@ -248,16 +267,24 @@ html, body {
         margin: 0 auto; /* Center it horizontally */
     }
 
-    #setGridView #setGridContainer {
-        grid-template-columns: repeat(3, 1fr); /* Always 3 columns minimum */
+
+    #view-art-btn {
+        display: none;
+        font-family: 'Beleren Bold', sans-serif; 
+        padding: 10px;
+        font-size: 18px;
+        background-color: orangered;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        position: static;
+        margin: 15px;
+        border-radius: 5px;
+        transform: translate(0%, -30%) !important;
     }
 }
 
-@media screen and (max-width: 768px) {
-    #setGridView #setGridContainer {
-        grid-template-columns: repeat(3, minmax(150px, 1fr)); /* Force 3 columns minimum */
-    }
-}
+
 
 
 #view-art-btn {
@@ -272,7 +299,10 @@ html, body {
     position: static;
     margin: 15px;
     border-radius: 5px;
+    transform: translate(0, 300%);
 }
+
+
 
 .modal {
     display: none; /* Hidden by default */

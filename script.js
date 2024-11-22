@@ -176,6 +176,9 @@ function displayCardGrid(cards) {
         `;
         setGridContainer.appendChild(cardDiv);
 
+        const pElement = cardDiv.querySelector('p');
+        pElement.style.textShadow = '  0 2px 5px rgba(0, 0, 0, 0.9)';
+
         // Add click functionality for card details
         cardDiv.addEventListener('click', () => {
             displayCardInfo(card, true); // Pass 'true' to indicate it's from the set grid
@@ -255,14 +258,14 @@ function displayCardInfo(data, fromSetGrid = false) {
 
     // Add rows and data to the table
     const rows = [
-        { label: "Card Name", value: data.name || "-" },
-        { label: "Set", value: data.set_name || "-" },
-        { label: "Rarity", value: capitalizeFirstLetter(data.rarity) || "-" },
-        { label: "Number in Set", value: "#" + data.collector_number || "-" },
-        { label: "Artist", value: data.artist || "-" },
-        { label: "Release Date", value: data.released_at || "-" },
-        { label: "Keywords", value: data.keywords.join(', ') || "-" },
-        { label: "Current Prices", value: getCurrentPrices(data) }
+        { label: "Card Name:", value: data.name || "-" },
+        { label: "Set:", value: data.set_name || "-" },
+        { label: "Rarity:", value: capitalizeFirstLetter(data.rarity) || "-" },
+        { label: "Number in Set:", value: "#" + data.collector_number || "-" },
+        { label: "Artist:", value: data.artist || "-" },
+        { label: "Release Date:", value: data.released_at || "-" },
+        { label: "Keywords:", value: data.keywords.join(', ') || "-" },
+        { label: "Current Prices:", value: getCurrentPrices(data) }
     ];
 
     rows.forEach(row => {
