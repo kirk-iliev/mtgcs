@@ -1,5 +1,7 @@
 Magic the Gathering: Card Search
 
+mtgcs.org
+
 A simple responsive web app that displays cards and their info by calling the Scryfall API.
 Features include dropdown suggestion menu using Select2 for easy search, interactive 3D hover effect on cards, ability to easily view full card art and magnify for higher detail using Magnify JQuery plugin.
 
