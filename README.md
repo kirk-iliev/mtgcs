@@ -13,6 +13,4 @@ Deployed via Netlify.
 
 ### Planned features:
 
-- Browse cards by set. View the entire set in a grid of card images
-
 - Login functionality to be able to favorite cards and view your favorited cards
