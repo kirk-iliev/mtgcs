@@ -8,3 +8,5 @@ Features include dropdown suggestion menu using Select2 for easy search, interac
 I do not claim to own any content displayed including images, fonts, logos, and/or any intellectual property belonging to Wizards of the Coast. This is a fan project and is not monetized or sponsored in any way.
 
 Credit to Scryfall for their excellent API.
+
+Deployed via Netlify.
