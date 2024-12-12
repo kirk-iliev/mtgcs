@@ -55,7 +55,7 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%; /* Adjust as needed */
+    width: 90%;
     height: 80%;
 }
 #searchInput {
@@ -79,34 +79,33 @@ html, body {
 
 .card-info {
     display: flex;
-    flex-direction: row; /* Keep items side by side */
-    align-items: flex-start; /* Align items at the top */
-    gap: 16px; /* Add spacing between the card and the table */
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px; 
     margin-top: 20px;
-    justify-content: center; /* Center the content horizontally */
-    width: 100%; /* Ensure the container spans full width */
-    max-width: 1200px; /* Optional: Limit the maximum width */
-    margin-left: auto; /* Center horizontally within the parent */
-    margin-right: auto; /* Center horizontally within the parent */
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
  /* Styles for the card image */
  .image-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically (if needed) */
+    justify-content: center;
+    align-items: center; 
 }
 
-/* 3D Hover Effect Styles */
 /* Card image styles */
 #cardImage {
     transition: transform 300ms ease-out, box-shadow 300ms ease-out;
     transform: rotate3d(0);
     display: flex;
-    max-width: 300px; /* Prevent image from growing too large */
-    min-width: 200px; /* Prevent image from shrinking too much */
-    width: 100%; /* Allow flexibility */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 300px;
+    min-width: 200px;
+    width: 100%;
+    height: auto;
     z-index: 10; 
     position: relative;
     border-radius: 20px;
@@ -117,19 +116,18 @@ html, body {
 
 #cardImage:hover {
     transition-duration: 150ms;
-    /* transform: scale3d(1.3, 1.3, 1.3); Slight zoom effect */
-    box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.5); /* Add shadow to the image only */
+    box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Styles for the card info table */
 #cardInfoTable {
-    border-collapse: separate; /* Allows rounded corners to work */
-    border-spacing: 0; /* Prevent gaps between cells */
-    border-radius: 10px; /* Apply rounded corners to the entire table */
-    overflow: hidden; /* Ensures content stays within rounded corners */
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
     width: 100%;
-    margin: 20px auto; /* Center the table */
-    border: 1px solid #dddddd; /* Add a border around the table */
+    margin: 20px auto;
+    border: 1px solid #dddddd; 
 }
 
 #cardInfoTable th, #cardInfoTable td {
@@ -137,14 +135,14 @@ html, body {
     text-align: left;
     background-color:transparent;
     color: #fffefe;
-    border: 1px solid #dddddd; /* Line between all cells */
+    border: 1px solid #dddddd;
 }
 
-/* Keep the rest of the table black */
+
 #cardInfoTable td:not(:first-child), #cardInfoTable th:not(:first-child) {
-    background-color: black; /* Black background for other columns */
-    color: #fffefe; /* Text remains visible */
-    /* border: 1px solid #dddddd; Borders between cells */
+    background-color: black;
+    color: #fffefe;
+    
 }
 
 #cardInfoTable th {
@@ -152,20 +150,18 @@ html, body {
 }
 
 
-/* Add explicit control for the first and last rows to handle rounding */
 #cardInfoTable tr:first-child th:first-child {
-    border-top-left-radius: 10px; /* Top-left corner */
+    border-top-left-radius: 10px;
 }
 #cardInfoTable tr:first-child th:last-child {
-    border-top-right-radius: 10px; /* Top-right corner */
+    border-top-right-radius: 10px; 
 }
 #cardInfoTable tr:last-child td:first-child {
-    border-bottom-left-radius: 10px; /* Bottom-left corner */
+    border-bottom-left-radius: 10px;
 }
 #cardInfoTable tr:last-child td:last-child {
-    border-bottom-right-radius: 10px; /* Bottom-right corner */
+    border-bottom-right-radius: 10px; 
 }
-
 
 
 .container h1 {
@@ -181,11 +177,11 @@ html, body {
 }
 
 .title-2 {
-    color: orangered; /* Example: Orange for "Magic: The Gathering" */
+    color: orangered; 
 }
 
 .search-title {
-    color: #ffffff; /* Example: White for "Card Search" */
+    color: #ffffff; 
 }
 .suggestion {
     cursor: pointer;
@@ -228,8 +224,8 @@ html, body {
 .shiny-text {
     font-size: 18px;
     font-weight: bold;
-    position: relative; /* Ensure the parent element is relatively positioned */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Adjust the blur radius and opacity */
+    position: relative;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .select2-results__option--highlighted {
@@ -240,27 +236,27 @@ html, body {
 /* Media query for narrow viewports */
 @media screen and (max-width: 768px) {
     .card-info {
-        flex-direction: column; /* Stack items vertically */
-        align-items: center; /* Center items horizontally */
-        gap: 16px; /* Spacing between the card and the table */
-        margin-top: 20px; /* Add some spacing at the top */
-        justify-content: flex-start; /* Align content at the top */
-        width: 100%; /* Ensure it spans the full width */
-        max-width: 100%; /* Allow full width on mobile */
-        margin-left: auto; /* Center container horizontally */
-        margin-right: auto; /* Center container horizontally */
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin-top: 20px; 
+        justify-content: flex-start;
+        width: 100%; 
+        max-width: 100%; 
+        margin-left: auto;
+        margin-right: auto;
     }
 
     #cardImage {
-        max-width: 300px; /* Prevent the image from becoming too large */
-        width: 90%; /* Allow the image to scale responsively */
-        height: auto; /* Maintain aspect ratio */
-        margin-bottom: 16px; /* Add spacing below the image */
+        max-width: 300px;
+        width: 90%;
+        height: auto;
+        margin-bottom: 16px; 
     }
 
     #cardInfoTable {
-        width: 90%; /* Center the table with responsive width */
-        margin: 0 auto; /* Center it horizontally */
+        width: 90%;
+        margin: 0 auto;
     }
 
 
@@ -301,14 +297,14 @@ html, body {
 
 
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Ensure it appears above other content */
+    z-index: 1000; 
     left: 0;
     top: 0;
-    width: 100%; /* Cover the entire viewport width */
-    height: 100%; /* Cover the entire viewport height */
-    background-color: rgba(0, 0, 0, 0.9); /* Dark background with opacity */
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
 }
@@ -316,33 +312,32 @@ html, body {
 /* Modal Content */
 .modal-content {
     position: relative;
-    width: 100%; /* Take up full width */
-    /* height: 100%; Take up full height */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: none; /* Transparent background */
+    background: none;
     border: none;
 }
 
 /* Close Button */
 .close {
     position: absolute;
-    top: 20px; /* Maintain some spacing from the top */
-    right: 20px; /* Maintain some spacing from the right */
+    top: 20px;
+    right: 20px;
     color: white;
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1001; /* Ensure it stays above the image */
+    z-index: 1001;
 }
 
 /* Adjust Close Button for Narrow Viewports */
 @media (max-width: 768px) {
     .close {
-        top: 10px; /* Adjust position */
-        right: 10px; /* Adjust position */
-        font-size: 24px; /* Make the button slightly smaller */
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
     }
 }
 
@@ -359,59 +354,59 @@ html, body {
 
 /* Modal Image */
 .modal-art-image {
-    width: 80vw; /* Set the image width to 65% of the viewport width */
-    height: auto; /* Maintain aspect ratio */
-    max-height: 85vh; /* Prevent the image from exceeding 85% of the viewport height */
-    border-radius: 10px; /* Optional: Add rounded corners */
-    object-fit: contain; /* Ensure the image fits within its container */
-    cursor: zoom-in; /* Indicate zoom functionality */
+    width: 80vw;
+    height: auto; 
+    max-height: 85vh;
+    border-radius: 10px;
+    object-fit: contain;
+    cursor: zoom-in;
 }
 
 
 #disclaimerContainer {
-    position: fixed; /* Stays at the bottom of the viewport */
-    bottom: 10px; /* Distance from the bottom */
-    left: 1%; /* Distance from the left */
+    position: fixed;
+    bottom: 10px;
+    left: 1%;
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #fff;
     display: flex;
     align-items: center;
     gap: 5px;
-    z-index: 1000; /* Ensures it's above other elements */
+    z-index: 1000;
 }
 
 .disclaimer-icon {
     width: 20px;
     height: 20px;
-    background-color: #000000; /* Circle background color */
-    color: #989898; /* Text color */
+    background-color: #000000;
+    color: #989898;
     border-radius: 50%;
     text-align: center;
     line-height: 20px;
-    cursor: help; /* Indicates the icon provides information */
+    cursor: help;
     font-weight: bold;
     font-size: 14px;
 }
 
 .disclaimer-text {
-    cursor: help; /* Indicates it provides information */
+    cursor: help;
     color:rgb(117, 116, 116)
 }
 
 .disclaimer-popup {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
-    bottom: 30px; /* Adjust to appear above the icon */
+    bottom: 30px;
     left: 0;
-    width: 300px; /* Width of the popup */
+    width: 300px; 
     background-color: #222;
     color: #929292;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     font-size: 12px;
-    z-index: 1001; /* Above other elements */
+    z-index: 1001;
 }
 
 /* Show popup on hover */
@@ -449,14 +444,6 @@ html, body {
 .grid-view {
     margin-top: 20px;
 }
-
-/* .grid-container {
-    display: grid;
-    grid-gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 16px;
-    width: 100%;
-} */
 
 #setGridView #setGridContainer {
     display: grid;
