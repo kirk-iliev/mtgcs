@@ -447,6 +447,7 @@ function resetCard() {
 
 function enableEffect(e) {
     bounds = cardImage.getBoundingClientRect();
+    cardImage.style.willChange = 'transform';
 
     if (e.type === 'mouseenter') {
         document.addEventListener('mousemove', rotateToPointer);
@@ -462,4 +463,5 @@ function disableEffect(e) {
         document.removeEventListener('touchmove', rotateToPointer);
     }
     resetCard();
+    cardImage.style.willChange = 'auto';
 }
