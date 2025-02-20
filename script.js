@@ -408,12 +408,7 @@ function displayErrorMessage(message) {
     cardImage.innerHTML = `<p>${message}</p>`;
 }
 
-let isThrottled = false;
-
 function rotateToPointer(e) {
-    if (isThrottled) return;
-    isThrottled = true;
-
     requestAnimationFrame(() => {
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -436,17 +431,18 @@ function rotateToPointer(e) {
         if (e.type === 'touchmove') {
             e.preventDefault();
         }
-
-        isThrottled = false;
     });
 }
+
 
 function resetCard() {
     cardImage.style.transform = '';
 }
 
 function enableEffect(e) {
-    bounds = cardImage.getBoundingClientRect();
+    if (!bounds) {
+        bounds = cardImage.getBoundingClientRect();
+    }
     cardImage.style.willChange = 'transform';
 
     if (e.type === 'mouseenter') {
@@ -455,6 +451,7 @@ function enableEffect(e) {
         document.addEventListener('touchmove', rotateToPointer, { passive: false });
     }
 }
+
 
 function disableEffect(e) {
     if (e.type === 'mouseleave') {

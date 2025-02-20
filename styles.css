@@ -466,6 +466,8 @@ html, body {
     transition: transform 0.3s;
     display: block;
     object-fit: cover;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .card-grid-item:hover img {
