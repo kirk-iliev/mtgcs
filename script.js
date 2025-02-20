@@ -61,11 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
         disclaimerPopup.style.display = 'none';
     });
 
+    // Add event listeners for both mouse and touch
     cardImage.addEventListener('mouseenter', enableEffect);
     cardImage.addEventListener('mouseleave', disableEffect);
     cardImage.addEventListener('touchstart', enableEffect, { passive: false });
     cardImage.addEventListener('touchend', disableEffect, { passive: false });
     cardImage.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+
+    // Focus on the search input field when Select2 dropdown is opened
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
 });
 
 // FUNCTIONS ----------------------------------------------------------------------------------
@@ -402,28 +408,37 @@ function displayErrorMessage(message) {
     cardImage.innerHTML = `<p>${message}</p>`;
 }
 
+let isThrottled = false;
+
 function rotateToPointer(e) {
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    if (isThrottled) return;
+    isThrottled = true;
 
-    const leftX = clientX - bounds.left;
-    const topY = clientY - bounds.top;
+    requestAnimationFrame(() => {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-    const center = {
-        x: leftX - bounds.width / 2,
-        y: topY - bounds.height / 2,
-    };
+        const leftX = clientX - bounds.left;
+        const topY = clientY - bounds.top;
 
-    cardImage.style.transform = `
-        perspective(1000px)
-        rotateX(${-(center.y / bounds.height) * 50}deg)
-        rotateY(${(center.x / bounds.width) * 50}deg)
-        scale3d(1.35, 1.35, 1.35)
-    `;
+        const center = {
+            x: leftX - bounds.width / 2,
+            y: topY - bounds.height / 2,
+        };
 
-    if (e.type === 'touchmove') {
-        e.preventDefault();
-    }
+        cardImage.style.transform = `
+            perspective(1000px)
+            rotateX(${-(center.y / bounds.height) * 50}deg)
+            rotateY(${(center.x / bounds.width) * 50}deg)
+            scale3d(1.35, 1.35, 1.35)
+        `;
+
+        if (e.type === 'touchmove') {
+            e.preventDefault();
+        }
+
+        isThrottled = false;
+    });
 }
 
 function resetCard() {
