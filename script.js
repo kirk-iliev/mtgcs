@@ -11,6 +11,8 @@ const modal = document.getElementById('artModal');
 const modalArtImage = document.getElementById('modalArtImage');
 const closeModal = document.getElementById('closeModal');
 const viewArtButton = document.getElementById("view-art-btn");
+const disclaimerPopup = document.getElementById("disclaimerPopup");
+const disclaimerContainer = document.getElementById("disclaimerContainer");
 let bounds;
 let isSetSearch = false;
 
@@ -343,6 +345,9 @@ function displayCardInfo(data, fromSetGrid = false) {
         { label: "Current Prices:", value: getCurrentPrices(data) }
     ];
 
+    
+
+
     rows.forEach(row => {
         const tr = document.createElement("tr");
         const th = document.createElement("th");
@@ -350,7 +355,7 @@ function displayCardInfo(data, fromSetGrid = false) {
         th.textContent = row.label;
         th.style.textShadow = "2px 2px black";
         td.textContent = row.value;
-        if (row.label === "Rarity") {
+        if (row.label === "Rarity:") {
             td.style.color = getRarityColor(row.value);
             td.classList.add("shiny-text");
             td.style.background = "black";
@@ -374,6 +379,7 @@ function displayCardInfo(data, fromSetGrid = false) {
     });
 }
 
+// Function to get color based on rarity
 function getRarityColor(rarity) {
     switch (rarity.toLowerCase()) {
         case "common":
@@ -385,7 +391,7 @@ function getRarityColor(rarity) {
         case "mythic":
             return "orangered";
         default:
-            return "white";
+            return "white"; 
     }
 }
 

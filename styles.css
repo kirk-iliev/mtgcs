@@ -141,7 +141,7 @@ html, body {
 
 #cardInfoTable td:not(:first-child), #cardInfoTable th:not(:first-child) {
     background-color: black;
-    color: #fffefe;
+    /* color: #fffefe; */
     
 }
 
@@ -222,7 +222,6 @@ html, body {
 }
 
 .shiny-text {
-    font-size: 18px;
     font-weight: bold;
     position: relative;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
