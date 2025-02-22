@@ -14,3 +14,4 @@ Deployed via Netlify.
 ### Planned features:
 
 - Login functionality to be able to favorite cards and view your favorited cards
+- Sorting functionality for the "Browse by set" grid view
