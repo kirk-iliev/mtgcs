@@ -2,6 +2,11 @@
 
 [mtgcs.org](https://mtgcs.org/)
 
+![image](https://github.com/user-attachments/assets/9671c657-09ef-4692-a891-954f0668ee7a)
+
+![image](https://github.com/user-attachments/assets/9325166b-1ddc-45b0-9eb8-09d550dbc597)
+
+
 A simple responsive web app that displays cards and their info by calling the Scryfall API.
 Features include dropdown suggestion menu using Select2 for easy search, interactive 3D hover effect on cards, ability to easily view full card art and magnify for higher detail using Magnify jQuery plugin.
 
