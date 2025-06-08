@@ -313,7 +313,18 @@ function searchCard(cardName) {
 }
 
 function setBodyBackground(imageUrl) {
-    document.getElementById("backgroundContainer").style.backgroundImage = `url("${imageUrl}")`;
+    const bg = document.getElementById("backgroundContainer");
+
+    // Fade out
+    bg.style.opacity = 0;
+
+    // Wait for fade-out to complete
+    setTimeout(() => {
+        bg.style.backgroundImage = `url("${imageUrl}")`;
+
+        // Fade in
+        bg.style.opacity = 1;
+    }, 250); // Half of your transition duration
 }
 
 function displayCardImage(imageUrl) {
@@ -345,7 +356,7 @@ function displayCardInfo(data, fromSetGrid = false) {
         { label: "Current Prices:", value: getCurrentPrices(data) }
     ];
 
-    
+
 
 
     rows.forEach(row => {
@@ -391,7 +402,7 @@ function getRarityColor(rarity) {
         case "mythic":
             return "orangered";
         default:
-            return "white"; 
+            return "white";
     }
 }
 
